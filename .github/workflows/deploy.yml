@@ -21,3 +21,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         # If your site is in public_html, set the server-dir below:
         server-dir: public_html/ 
+        
