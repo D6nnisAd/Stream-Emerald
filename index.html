@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream - Innovative Technology</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* 
+         * Core Branding & Styling 
+         */
+        :root {
+            --primary-color: #013740;
+            --secondary-color: #02505d;
+            --accent-glow: #00f2ff;
+            --text-color-light: #ffffff;
+            --font-main: 'Poppins', sans-serif;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            
+            /* Section Backgrounds - Progressive Darkening */
+            --bg-about: #013740;
+            --bg-features: #012e36;
+            --bg-packages: #01252b;
+            --bg-faq: #001518;
+            --bg-footer: #000000;
+            
+            /* Section Separator Outline */
+            --section-outline: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* HORIZONTAL OVERFLOW FIX */
+        .page-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: var(--font-main);
+            overflow-x: hidden; /* Kept as fallback, though page-wrapper handles it */
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-weight: 600;
+        }
+
+        /* 
+         * Hero Section Container 
+         */
+        #hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            border-bottom: var(--section-outline);
+        }
+
+        /* Background Texture Logic */
+        #hero-section {
+            background-image: url('assets/mobile-background.jpg');
+        }
+        @media (min-width: 992px) {
+            #hero-section {
+                background-image: url('assets/desktop-background.jpg');
+            }
+        }
+
+        /* 
+         * Navbar Styling - Colourless Glassmorph 
+         */
+        .navbar {
+            z-index: 1030;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .navbar-scrolled {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            /* Colourless glass effect: very transparent white with blur */
+            background: rgba(255, 255, 255, 0.05) !important; 
+            backdrop-filter: blur(6px); /* Less blur */
+            -webkit-backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+        .nav-link:hover {
+            opacity: 1;
+            color: var(--accent-glow) !important;
+        }
+
+        @media (max-width: 991px) {
+            .navbar {
+                background-color: transparent;
+            }
+            .navbar-collapse {
+                background: rgba(1, 55, 64, 0.98);
+                padding: 1rem;
+                border-radius: 10px;
+                margin-top: 10px;
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+        }
+
+        /* 
+         * Button Styles 
+         */
+        .btn-custom {
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .btn-primary-custom {
+            background-color: #ffffff;
+            color: var(--primary-color);
+            border: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+            color: var(--primary-color);
+            background-color: var(--accent-glow);
+        }
+
+        /* Updated to Clear Glassmorph Style */
+        .btn-secondary-custom {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary-custom:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-color: var(--accent-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+
+        .btn-nav-register {
+            padding: 8px 24px;
+            font-size: 0.9rem;
+        }
+        @media (min-width: 992px) {
+            .btn-nav-register { margin-left: 1rem; }
+        }
+        @media (max-width: 991px) {
+            .btn-nav-register { margin-right: 15px; }
+        }
+
+        /* 
+         * Hero Content 
+         */
+        .hero-content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .hero-content-layer .container, 
+        .hero-content-layer .btn-custom {
+            pointer-events: auto;
+        }
+
+        .hero-title {
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 15rem;
+        }
+
+        .hero-image-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1;
+            /* Images are clickable now, so pointer events auto */
+            pointer-events: auto;
+            overflow: hidden;
+            line-height: 0;
+        }
+        
+        /* Make hero image clickable */
+        .hero-image-link {
+            display: block;
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            max-height: 85vh;
+            cursor: pointer;
+        }
+        .hero-img {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+        }
+
+        .hero-buttons-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 991px) {
+            #hero-section {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+            .navbar {
+                order: 1;
+                position: fixed;
+                width: 100%;
+            }
+            .hero-content-layer {
+                position: relative;
+                height: auto;
+                order: 2;
+                padding-bottom: 1rem;
+                padding-top: 80px;
+            }
+            .hero-content-layer .container,
+            .hero-content-layer .row {
+                height: auto !important; 
+            }
+            .hero-image-wrapper {
+                position: relative;
+                height: auto;
+                order: 3;
+                display: block;
+                margin-top: auto;
+            }
+            .hero-img {
+                width: 100%;
+                height: auto;
+            }
+            .hero-title {
+                font-size: 1.1rem;
+                text-align: center;
+                margin: 0 auto 2.5rem auto;
+                max-width: 90%;
+            }
+            .hero-buttons-container {
+                justify-content: center;
+                margin-bottom: 2rem;
+            }
+            .mobile-content-wrapper {
+                padding-top: 2rem;
+            }
+        }
+
+        /* Desktop Adjustments */
+        @media (min-width: 992px) {
+            .hero-title {
+                font-size: 1.1rem; 
+                text-align: left;
+                max-width: 280px;
+            }
+            .hero-buttons-col {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-end;
+                padding-bottom: 3rem;
+            }
+            .hero-text-col {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-top: 15vh;
+            }
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: white;
+            padding: 0;
+            font-size: 1.8rem;
+        }
+        .navbar-toggler:focus { box-shadow: none; }
+        
+        /* 
+         * Common Section Styles
+         */
+        .section-padding {
+            padding: 80px 0;
+        }
+        
+        .glow-text {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        .section-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-subtitle {
+            font-size: 1rem;
+            color: #a0c4c7;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*
+         * About Section 
+         * Color: Level 1 Dark (Base Primary)
+         */
+        #about-section {
+            background-color: var(--bg-about);
+            position: relative;
+        }
+        
+        /* Subtle pattern overlay for About */
+        #about-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+        }
+
+        .about-text {
+            color: #e0e0e0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+        
+        .about-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image-wrapper:hover .about-img {
+            transform: scale(1.05);
+        }
+
+        /*
+         * Features / Ecosystem Section 
+         * Color: Level 2 Dark (Slightly darker than primary)
+         */
+        #features-section {
+            background-color: var(--bg-features);
+            padding-bottom: 100px;
+            border-top: var(--section-outline);
+        }
+
+        .feature-box-link {
+            display: block;
+            height: 100%;
+            text-decoration: none;
+        }
+
+        .feature-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 242, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 242, 255, 0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(1, 55, 64, 0.5);
+            border: 1px solid var(--accent-glow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--accent-glow);
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .feature-box:hover .feature-icon {
+            background: var(--accent-glow);
+            color: var(--primary-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .feature-title {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-desc {
+            color: #b0d0d3;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /*
+         * Packages Section
+         * Color: Level 3 Dark
+         */
+        #packages-section {
+            background-color: var(--bg-packages);
+            padding-bottom: 80px;
+            border-top: var(--section-outline);
+        }
+        
+        .package-card-link {
+            display: block;
+            text-decoration: none;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .package-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,242,255,0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .package-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .package-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            margin: 1.5rem 0;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        .package-currency {
+            font-size: 1.5rem;
+            vertical-align: top;
+            margin-right: 5px;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .benefits-list li i {
+            color: var(--accent-glow);
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        /*
+         * FAQ & CTA Section
+         * Color: Level 4 Dark (Almost Black)
+         */
+        #faq-cta-wrapper {
+            background-color: var(--bg-faq);
+            border-top: var(--section-outline);
+        }
+
+        .accordion-item {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            margin-bottom: 10px;
+            border-radius: 10px !important;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            background-color: transparent;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(0, 242, 255, 0.1);
+            color: var(--accent-glow);
+            box-shadow: none;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-button::after {
+            filter: invert(1);
+        }
+
+        .cta-box {
+            background: linear-gradient(90deg, #000000 0%, #013740 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /*
+         * Footer
+         * Color: Pure Black
+         */
+        footer {
+            background-color: var(--bg-footer);
+            padding: 4rem 0 2rem 0;
+            border-top: var(--section-outline);
+        }
+
+        .footer-brand {
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .footer-brand img {
+            height: 40px;
+        }
+
+        .footer-desc {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-heading {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--accent-glow);
+        }
+
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--accent-glow);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        /* 
+         * Mobile Sticky Signup Button 
+         */
+        #mobile-sticky-signup {
+            position: fixed;
+            bottom: 30px;
+            left: 5%;
+            width: 90%;
+            padding: 16px;
+            text-align: center;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border-radius: 50px;
+            z-index: 1040;
+            
+            /* Initial state */
+            transform: translateY(150%);
+            opacity: 0;
+            /* Transition for appearance, and specific transition for 'bottom' for footer docking */
+            transition: transform 0.4s ease, opacity 0.4s ease, bottom 0.1s linear;
+        }
+
+        #mobile-sticky-signup.show-sticky {
+            transform: translateY(0);
+            opacity: 1;
+            
+            /* Colourless Liquidy Glass Effect */
+            background: rgba(255, 255, 255, 0.08); /* Very transparent */
+            backdrop-filter: blur(6px); /* Less blur */
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            /* Subtle shine and soft shadow */
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.1), 
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Main Hero Section -->
+        <section id="hero-section">
+            <nav class="navbar navbar-expand-lg fixed-top">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="assets/logo.svg" alt="Stream Logo">
+                    </a>
+                    <div class="d-flex align-items-center d-lg-none ms-auto">
+                        <a href="register.html" class="btn-custom btn-primary-custom btn-nav-register">Register</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item"><a class="nav-link" href="#hero-section">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#about-section">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#features-section">Features</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#packages-section">Packages</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#faq-cta-wrapper">Faqs</a></li>
+                        </ul>
+                        <a href="register.html" class="btn-custom btn-primary-custom btn-nav-register d-none d-lg-inline-block">Register</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Clickable Hero Images -->
+            <div class="hero-image-wrapper">
+                 <a href="register.html" class="hero-image-link d-none d-lg-block">
+                    <img src="assets/hero-image-desktop.png" alt="Hero Desktop" class="hero-img" data-aos="fade-in" data-aos-duration="1200" data-aos-delay="200">
+                 </a>
+                 <a href="register.html" class="hero-image-link d-lg-none">
+                    <img src="assets/hero-image-mobile.png" alt="Hero Mobile" class="hero-img" data-aos="fade-in" data-aos-duration="1200" data-aos-delay="200">
+                 </a>
+            </div>
+
+            <div class="hero-content-layer">
+                <div class="container h-100">
+                    <div class="row h-100 mobile-content-wrapper">
+                        <div class="col-lg-5 col-12 hero-text-col">
+                            <div data-aos="fade-up" data-aos-duration="1000">
+                                <h1 class="hero-title">
+                                    A Unified Platform for Media, Freelancing, and Community Rewards
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 d-none d-lg-block"></div>
+                        <div class="col-lg-5 col-12 hero-buttons-col">
+                            <div class="hero-buttons-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                                <a href="register.html" class="btn-custom btn-primary-custom">Signup</a>
+                                <a href="register.html" class="btn-custom btn-secondary-custom">Learn-more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about-section" class="section-padding">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Clickable Image Column -->
+                    <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                        <a href="register.html" class="d-block">
+                            <div class="about-image-wrapper">
+                                <img src="assets/about.jpg" alt="About Stream" class="about-img">
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Text Column -->
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="ps-lg-4 text-center text-lg-start">
+                            <h2 class="section-title glow-text">About Stream</h2>
+                            <p class="about-text mt-3">
+                                Stream is a people-driven ecosystem created to redefine digital productivity and personal value. 
+                                It blends innovation, technology, and community to build a platform where everyone can grow, engage, and evolve together.
+                            </p>
+                            <p class="about-text">
+                                A revolutionary platform where individuals can stream their favourite music, videos, and various media for rewards.
+                                Here, opportunities go beyond the ordinary, from empowerment systems to groundbreaking solutions 
+                                designed to make success both achievable and sustainable.
+                            </p>
+                            <p class="about-text font-italic text-white-50 mt-4">
+                                "Stream is where ambition meets innovation, and every step moves you closer to your aspirations."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features / Ecosystem Section -->
+        <section id="features-section" class="section-padding">
+            <div class="container">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title glow-text">The Stream Ecosystem</h2>
+                    <p class="section-subtitle">Discover the powerful features designed to help you connect, engage, and grow.</p>
+                </div>
+
+                <div class="row g-4">
+                    <!-- 1. Stream & Earn (Media) - Highlight -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <a href="register.html" class="feature-box-link">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-play-circle"></i>
+                                </div>
+                                <h4 class="feature-title">Stream & Rewards</h4>
+                                <p class="feature-desc">
+                                    The core of our platform. Listen to your favorite music, watch trending videos, and engage with media. Your streaming activity translates into rewards.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 2. Stream Gigs -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                        <a href="register.html" class="feature-box-link">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                </div>
+                                <h4 class="feature-title">Stream Gigs</h4>
+                                <p class="feature-desc">
+                                    Connecting people, creating opportunities. Find work, offer services, and receive payments securely. Connect instantly with verified workers or clients.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 3. Earn As You Snap -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                        <a href="register.html" class="feature-box-link">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fa-brands fa-snapchat"></i>
+                                </div>
+                                <h4 class="feature-title">Snap & Engage</h4>
+                                <p class="feature-desc">
+                                    Get rewarded daily for sharing Stream content on your Snapchat story. Post official content, tag Stream, and earn credits per post once verified.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 4. Stream Yaps -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                         <a href="register.html" class="feature-box-link">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-microphone-lines"></i>
+                                </div>
+                                <h4 class="feature-title">Stream Yaps</h4>
+                                <p class="feature-desc">
+                                    Earn by sharing your voice. Create authentic posts, videos, or stories about Stream on social media. Engaging content is rewarded based on performance.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 5. SkillUp Program -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                        <a href="register.html" class="feature-box-link">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <h4 class="feature-title">SkillUp Program</h4>
+                                <p class="feature-desc">
+                                    Knowledge is value. Learn modern, in-demand digital skills like marketing and content creation to unlock new professional opportunities.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 6. Universal Access -->
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                        <a href="register.html" class="feature-box-link">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-earth-americas"></i>
+                                </div>
+                                <h4 class="feature-title">Stream Universal</h4>
+                                <p class="feature-desc">
+                                    Opportunity knows no boundaries. A global movement where anyone, anywhere can get started, grow, and monetize their digital activities using just their phone.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Packages Section -->
+        <section id="packages-section" class="section-padding">
+            <div class="container">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title glow-text">Get Started</h2>
+                    <p class="section-subtitle">Unlock full access to the Stream ecosystem with our premium package.</p>
+                </div>
+                
+                <div class="row justify-content-center">
+                    <div class="col-lg-6" data-aos="zoom-in">
+                        <!-- Clickable Package Card -->
+                        <a href="register.html" class="package-card-link">
+                            <div class="package-card">
+                                <div class="package-content">
+                                    <h3 class="text-uppercase mb-3">Premium Access</h3>
+                                    <div class="package-price">
+                                        <span class="package-currency">₦</span>15,000
+                                    </div>
+                                    <p class="text-white-50">One-time payment for lifetime access</p>
+                                    
+                                    <ul class="benefits-list">
+                                        <li><i class="fa-solid fa-check-circle"></i> Full access to Stream Gigs Platform</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> Rewards for Streaming Music & Video</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> Daily Snap & Engage Tasks</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> SkillUp Mentorship Program</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> Stream Yaps Social Rewards</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> Global Payouts & Support</li>
+                                    </ul>
+                                    
+                                    <span class="btn-custom btn-primary-custom w-100">Choose Package</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ & CTA Wrapper (Dark) -->
+        <div id="faq-cta-wrapper">
+            <!-- FAQ Section -->
+            <section class="section-padding">
+                <div class="container">
+                    <div class="text-center mb-5" data-aos="fade-up">
+                        <h2 class="section-title glow-text">Frequently Asked Questions</h2>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8" data-aos="fade-up">
+                            <div class="accordion" id="faqAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                            How do I generate rewards on Stream?
+                                        </button>
+                                    </h2>
+                                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            You can generate rewards by streaming music and videos, posting on Snapchat, completing gigs, and engaging on social media through Stream Yaps.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                            Is Stream available worldwide?
+                                        </button>
+                                    </h2>
+                                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes! Stream is a universal platform. Anyone from anywhere in the world can register and start engaged.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                            How are withdrawals processed?
+                                        </button>
+                                    </h2>
+                                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Rewards are processed directly to your provided bank account or preferred withdrawal method securely and transparently.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Removed Item 4 (Referral) -->
+                                <!-- New Item 5 -->
+                                 <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                             What does the package cost?
+                                        </button>
+                                    </h2>
+                                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            The premium access package is a one-time payment of ₦15,000, which grants you lifetime access to all features and opportunities.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- New Item 6 -->
+                                 <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                            Can I access the SkillUp program immediately?
+                                        </button>
+                                    </h2>
+                                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, once you register and activate your package, you get immediate access to the SkillUp mentorship, courses, and training materials.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="py-5 mb-5">
+                <div class="container">
+                    <div class="cta-box" data-aos="zoom-in">
+                        <h2 class="glow-text mb-3">Ready to Start?</h2>
+                        <p class="lead text-white-50 mb-4">Join thousands of others who are turning their time and skills into tangible value.</p>
+                        <a href="register.html" class="btn-custom btn-primary-custom">Get Started Now</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <a href="#" class="footer-brand">
+                            <img src="assets/logo.svg" alt="Stream Logo">
+                        </a>
+                        <p class="footer-desc">
+                            Stream is an innovative ecosystem connecting people, creating opportunities, and rewarding engagement through media, gigs, and skills.
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="register.html"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="register.html"><i class="fa-brands fa-snapchat"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <h5 class="footer-heading">Platform</h5>
+                        <ul class="footer-links">
+                            <li><a href="#about-section">About Us</a></li>
+                            <li><a href="#features-section">Features</a></li>
+                            <li><a href="#packages-section">Pricing</a></li>
+                            <li><a href="#faq-cta-wrapper">FAQ</a></li>
+                        </ul>
+                        <a href="register.html" class="btn-custom btn-primary-custom mt-2">Signup</a>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <h5 class="footer-heading">Contact</h5>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fa-solid fa-envelope me-2"></i> support@streamafrica.ng</a></li>
+                            <li><a href="#"><i class="fa-solid fa-location-dot me-2"></i> Lagos, Nigeria</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p class="copyright">
+                            &copy; 2024 Stream Technology. All Rights Reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Mobile Sticky Signup Button -->
+    <a href="register.html" id="mobile-sticky-signup" class="d-lg-none">Signup</a>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize AOS Animation
+            AOS.init({
+                once: true,
+                offset: 50,
+                duration: 1000
+            });
+
+            // Navbar & Sticky Button Scroll Logic
+            $(window).scroll(function() {
+                var scrollTop = $(this).scrollTop();
+                var windowHeight = $(window).height();
+                var heroHeight = $('#hero-section').outerHeight();
+                var footerOffset = $('footer').offset().top;
+
+                // 1. Header Glassmorphism
+                if (scrollTop > 50) {
+                    $('.navbar').addClass('navbar-scrolled');
+                } else {
+                    $('.navbar').removeClass('navbar-scrolled');
+                }
+                
+                // 2. Mobile Sticky Signup Button Visibility
+                var $btn = $('#mobile-sticky-signup');
+                
+                if (scrollTop > heroHeight - 100) { 
+                    $btn.addClass('show-sticky');
+                } else {
+                    $btn.removeClass('show-sticky');
+                }
+
+                // 3. Footer Docking Logic
+                // If scroll bottom hits the footer top, push the button up so it sticks to the footer area
+                if (scrollTop + windowHeight > footerOffset) {
+                    var overlap = (scrollTop + windowHeight) - footerOffset;
+                    $btn.css('bottom', (30 + overlap) + 'px');
+                } else {
+                    $btn.css('bottom', '30px');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

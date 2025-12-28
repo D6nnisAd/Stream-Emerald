@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Package - Stream</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #013740;
+            --secondary-color: #02505d;
+            --accent-glow: #00f2ff;
+            --text-color-light: #ffffff;
+            --font-main: 'Poppins', sans-serif;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('assets/mobile-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        @media (min-width: 992px) {
+            body {
+                background-image: url('assets/desktop-background.jpg');
+            }
+        }
+
+        .overlay {
+            background: rgba(1, 55, 64, 0.90);
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+            margin-bottom: 30px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .step-indicator {
+            display: inline-block;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--accent-glow);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #a0c4c7;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Package Card Design */
+        .package-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--accent-glow);
+            border-radius: 30px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(0, 242, 255, 0.1);
+            transition: transform 0.3s ease;
+            max-width: 480px;
+            margin: 0 auto;
+            cursor: pointer; /* Added cursor pointer */
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0, 242, 255, 0.2);
+        }
+
+        .most-popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--accent-glow);
+            color: var(--primary-color);
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: 700;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .package-name {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .package-price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            margin: 1rem 0;
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        .package-currency {
+            font-size: 1.8rem;
+            vertical-align: top;
+            margin-right: 5px;
+            opacity: 0.8;
+        }
+
+        .price-subtext {
+            color: #fff;
+            opacity: 0.6;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: -10px;
+            margin-bottom: 2rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            margin: 2rem 0;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1.2rem;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+
+        .benefits-list li i {
+            color: var(--accent-glow);
+            margin-right: 15px;
+            font-size: 1.2rem;
+            background: rgba(0, 242, 255, 0.1);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-select-package {
+            background-color: var(--accent-glow);
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 18px;
+            border-radius: 50px;
+            width: 100%;
+            margin-top: 2.5rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-select-package:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+            color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .secure-badge {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .support-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 2.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .support-link {
+            color: var(--accent-glow);
+            text-decoration: underline;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .support-link:hover {
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <div class="container">
+            <div class="text-center">
+                <a href="index.html" class="navbar-brand">
+                    <img src="assets/logo.svg" alt="Stream Logo">
+                </a>
+            </div>
+
+            <div class="header-section">
+                <span class="step-indicator">Step 2 of 2</span>
+                <h1 class="page-title">Choose Your Path</h1>
+                <p class="page-subtitle">Select the membership plan that fits your goals and start earning today.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <!-- Added onclick to the card wrapper -->
+                    <div class="package-card" onclick="selectPackage('Premium Access', '15,000')">
+                        <div class="most-popular-badge">POPULAR</div>
+                        
+                        <h2 class="package-name">Premium Access</h2>
+                        <div class="package-price">
+                            <span class="package-currency">₦</span>15,000
+                        </div>
+                        <span class="price-subtext">One-time payment • Lifetime access</span>
+
+                        <div class="divider"></div>
+
+                        <ul class="benefits-list">
+                            <li><i class="fa-solid fa-check"></i> Unlock Stream Gigs Platform</li>
+                            <li><i class="fa-solid fa-check"></i> Earn from Music & Video Streaming</li>
+                            <li><i class="fa-solid fa-check"></i> Access SkillUp Mentorship</li>
+                            <li><i class="fa-solid fa-check"></i> Daily Snap & Engage Rewards</li>
+                            <li><i class="fa-solid fa-check"></i> Social Media Task Earnings</li>
+                            <li><i class="fa-solid fa-check"></i> 24/7 Priority Support</li>
+                        </ul>
+
+                        <!-- Button remains visual but action is on parent card too -->
+                        <a class="btn-select-package">Activate Account</a>
+                        
+                        <div class="secure-badge">
+                            <i class="fa-solid fa-lock"></i> Secure SSL Encrypted Payment
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <p class="support-text">
+                        If you need more explanation on Animo, or you have any issue with making a payment, 
+                        <!-- ID Added for Dynamic Support Link -->
+                        <a href="#" class="support-link" id="dynamic-support-link">click here to contact our Support Team</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paystack JS -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Logic for Payment Gateway Switch -->
+    <script type="module">
+        import { db } from './firebase-init.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        let paystackEnabled = false;
+        let globalSupportLink = '#';
+
+        // Fetch Settings on Load
+        async function initPackagePage() {
+            try {
+                const docRef = doc(db, "settings", "global");
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    paystackEnabled = data.enablePaystack || false;
+                    globalSupportLink = data.supportLink || '#';
+                }
+            } catch (e) {
+                console.error("Error fetching settings:", e);
+            }
+        }
+        
+        initPackagePage();
+
+        // Expose selectPackage to global scope for the onclick event
+        window.selectPackage = function(packageName, amountStr) {
+            // Save selection regardless of method
+            localStorage.setItem('selectedPackage', packageName);
+            localStorage.setItem('selectedAmount', amountStr);
+            
+            const userEmail = localStorage.getItem('userEmail');
+
+            if (paystackEnabled) {
+                // Trigger Paystack
+                const paymentHandler = PaystackPop.setup({
+                    key: 'pk_live_fc1db9ce1d317ab8f1aeca041b68b22c36594bad',
+                    email: userEmail,
+                    amount: 15000 * 100, // 15,000 NGN in kobo
+                    currency: "NGN",
+                    ref: ''+Math.floor((Math.random() * 1000000000) + 1),
+                    metadata: {
+                        custom_fields: [
+                            {
+                                display_name: "Package",
+                                variable_name: "package",
+                                value: packageName
+                            }
+                        ]
+                    },
+                    callback: function(response) {
+                        // Redirect to Global Support Link on success
+                        if(globalSupportLink && globalSupportLink !== '#') {
+                            window.location.href = globalSupportLink;
+                        } else {
+                            alert("Payment successful! Please contact support.");
+                        }
+                    },
+                    onClose: function() {
+                        // Do nothing, stay on page
+                    }
+                });
+                paymentHandler.openIframe();
+            } else {
+                // Normal flow: Redirect to Manual Payment Page
+                window.location.href = 'payment.html';
+            }
+        };
+    </script>
+
+    <!-- Original Client Logic for Firestore (Support Link handling) -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>

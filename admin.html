@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Stream</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-bg: #01252b;
+            --secondary-bg: #013740;
+            --accent: #00f2ff;
+            --text-light: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Login View Styling */
+        #login-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('assets/desktop-background.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 2000;
+        }
+
+        .login-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1, 37, 43, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .login-container {
+            position: relative;
+            /* Removed card styling (bg, border, shadow) */
+            background: transparent;
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Specific Login Input Styles (Minimalist) */
+        #loginForm .form-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+
+        #loginForm .form-control {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0;
+            color: #fff;
+            padding: 10px 0;
+            box-shadow: none;
+        }
+
+        #loginForm .form-control:focus {
+            border-bottom-color: var(--accent);
+            box-shadow: none;
+        }
+        
+        #loginForm .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Dashboard Wrapper - Hidden by default */
+        #dashboard-view {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            display: flex; /* Will be toggled via JS */
+        }
+        
+        /* Helper class for JS toggling */
+        .d-none-custom {
+            display: none !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: rgba(1, 55, 64, 0.95);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            height: 40px;
+            margin-bottom: 3rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #a0c4c7;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .nav-item i {
+            width: 25px;
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem 3rem;
+            background-image: radial-gradient(circle at 90% 10%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
+            width: calc(100% - 260px);
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-bg);
+            font-weight: 700;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Standard Form Styles (Dashboard) */
+        .settings-card .form-label {
+            color: #b0d0d3;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-card .form-control {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-card .form-control:focus {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+        }
+
+        /* Toggle Switch */
+        .form-check-input {
+            width: 3em;
+            height: 1.5em;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+        }
+        .form-check-input:checked {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+        .form-check-input:focus {
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+
+        .btn-save {
+            background: var(--accent);
+            color: var(--secondary-bg);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            float: right;
+        }
+        
+        .btn-login {
+            background: #fff;
+            color: var(--secondary-bg);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+        }
+
+        .btn-save:hover, .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            color: #000;
+            background: var(--accent);
+        }
+
+        /* Toast Notification */
+        .admin-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 3000;
+        }
+        .admin-toast.error {
+            background: #dc3545;
+        }
+        .admin-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media(max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login View -->
+    <div id="login-view">
+        <div class="login-overlay"></div>
+        <div class="login-container">
+            <img src="assets/logo.svg" alt="Stream" height="50" class="mb-4">
+            <h2 class="text-white mb-2">Admin Access</h2>
+            <p class="text-white-50 mb-5">Secure Login</p>
+            
+            <form id="loginForm">
+                <div class="text-start mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="loginEmail" required placeholder="name@stream.ng">
+                </div>
+                <div class="text-start mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-login" id="loginBtn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard View (Wrapped) -->
+    <div id="dashboard-view" class="d-none-custom">
+        <aside class="sidebar">
+            <img src="assets/logo.svg" alt="Stream" class="brand-logo">
+            <nav>
+                <a href="#" class="nav-item active">
+                    <i class="fa-solid fa-gear"></i> Global Settings
+                </a>
+                <a href="#" id="logoutBtn" class="nav-item mt-auto">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Configuration</h1>
+                <div class="admin-profile">
+                    <span>Admin</span>
+                    <div class="admin-avatar">A</div>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <div class="card-header">
+                    <h2 class="card-title">Payment & Support Details</h2>
+                    <p class="text-white-50 m-0 small">Update the global bank details, support link, and payment method.</p>
+                </div>
+
+                <form id="adminSettingsForm">
+                    
+                    <!-- Paystack Toggle -->
+                    <div class="form-check form-switch mb-5 p-3 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <input class="form-check-input" type="checkbox" role="switch" id="enablePaystack">
+                        <label class="form-check-label ms-3" for="enablePaystack" style="font-size: 1.1rem; vertical-align: sub;">
+                            Enable Paystack Gateway
+                            <div class="small text-white-50 mt-1" style="font-size: 0.85rem; opacity: 0.7;">
+                                If enabled, users will pay via Paystack pop-up. If disabled, they redirect to the bank transfer page.
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Global Support Link</label>
+                        <input type="url" class="form-control" id="supportLink" placeholder="https://wa.me/..." required>
+                        <div class="form-text text-white-50">Used for support buttons AND redirect after successful Paystack payment.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Bank Name</label>
+                            <input type="text" class="form-control" id="bankName" placeholder="e.g. Moniepoint" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Account Number</label>
+                            <input type="text" class="form-control" id="accountNumber" placeholder="e.g. 4002125940" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Account Name</label>
+                        <input type="text" class="form-control" id="accountName" placeholder="e.g. BERNARD'S DIGITAL HUB" required>
+                    </div>
+
+                    <button type="submit" class="btn-save" id="saveBtn">Save Changes</button>
+                    <div style="clear: both;"></div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Logic -->
+    <script type="module" src="admin.js"></script>
+</body>
+</html>
