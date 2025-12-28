@@ -3,7 +3,7 @@ name: Deploy Website to cPanel
 on:
   push:
     branches:
-      - main  # This triggers the upload whenever you push to the 'main' branch
+      - main
 
 jobs:
   web-deploy:
@@ -19,5 +19,6 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        # If your site is in public_html, set the server-dir below:
-        server-dir: public_html/ 
+        server-dir: public_html/
+        port: 21
+        timeout: 60000 # Adds more time for the server to respond
