@@ -1,0 +1,21 @@
+User-agent: *
+# Allow access to main landing and registration pages
+Allow: /
+Allow: /index.html
+Allow: /register.html
+Allow: /assets/
+
+# Block access to sales funnel and admin pages to prevent indexing
+Disallow: /packages.html
+Disallow: /payment.html
+Disallow: /admin.html
+Disallow: /admin.js
+Disallow: /app.js
+Disallow: /firebase-init.js
+
+# Block access to private directories if any exist
+Disallow: /private/
+Disallow: /tmp/
+
+# Sitemap location
+Sitemap: https://streamafrica.ng/sitemap.xml

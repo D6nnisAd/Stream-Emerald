@@ -336,33 +336,65 @@
 
         let paystackEnabled = false;
         let globalSupportLink = '#';
+        let settingsLoaded = false;
 
-        // Fetch Settings on Load
-        async function initPackagePage() {
+        // Fetch Settings immediately and return promise
+        async function loadSettings() {
             try {
                 const docRef = doc(db, "settings", "global");
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    paystackEnabled = data.enablePaystack || false;
+                    // Ensure strict boolean check or truthy
+                    paystackEnabled = data.enablePaystack === true;
                     globalSupportLink = data.supportLink || '#';
+                    console.log("Stream Settings Loaded. Paystack:", paystackEnabled);
                 }
             } catch (e) {
                 console.error("Error fetching settings:", e);
+            } finally {
+                settingsLoaded = true;
             }
         }
         
-        initPackagePage();
+        // Start loading
+        const settingsPromise = loadSettings();
 
         // Expose selectPackage to global scope for the onclick event
-        window.selectPackage = function(packageName, amountStr) {
+        window.selectPackage = async function(packageName, amountStr) {
+            
+            // Wait for settings to load if they haven't yet (Race condition fix)
+            if (!settingsLoaded) {
+                console.log("Settings not ready, waiting...");
+                await settingsPromise;
+            }
+
             // Save selection regardless of method
             localStorage.setItem('selectedPackage', packageName);
             localStorage.setItem('selectedAmount', amountStr);
             
-            const userEmail = localStorage.getItem('userEmail');
+            let userEmail = localStorage.getItem('userEmail');
+            
+            // Validate Email for Paystack
+            if (!userEmail) {
+                userEmail = prompt("Please enter your email address to continue:");
+                if (userEmail) {
+                    localStorage.setItem('userEmail', userEmail);
+                } else {
+                    return; // Stop if cancelled
+                }
+            }
+
+            console.log("Processing payment. Paystack enabled:", paystackEnabled);
 
             if (paystackEnabled) {
+                if (typeof PaystackPop === 'undefined') {
+                    console.error("Paystack library not loaded.");
+                    alert("Payment Gateway Error. Redirecting to manual transfer.");
+                    window.location.href = 'payment.html';
+                    return;
+                }
+
                 // Trigger Paystack
                 const paymentHandler = PaystackPop.setup({
                     key: 'pk_live_fc1db9ce1d317ab8f1aeca041b68b22c36594bad',
