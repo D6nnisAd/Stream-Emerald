@@ -231,20 +231,99 @@
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
         }
 
-        /* Toggle Switch */
-        .form-check-input {
-            width: 3em;
-            height: 1.5em;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
+        /* 
+         * New Custom Toggle Styling 
+         */
+        .toggle-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
         }
-        .form-check-input:checked {
+        
+        .toggle-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 242, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .toggle-text h5 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toggle-text p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin: 0;
+            max-width: 450px;
+            line-height: 1.5;
+        }
+
+        /* Custom Switch */
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 54px;
+            height: 28px;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .custom-switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
             background-color: var(--accent);
             border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
         }
-        .form-check-input:focus {
-            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-color: #01252b; /* Dark when active for contrast */
         }
 
         .btn-save {
@@ -363,14 +442,15 @@
 
                 <form id="adminSettingsForm">
                     
-                    <!-- Paystack Toggle -->
-                    <div class="form-check form-switch mb-5 p-3 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
-                        <input class="form-check-input" type="checkbox" role="switch" id="enablePaystack">
-                        <label class="form-check-label ms-3" for="enablePaystack" style="font-size: 1.1rem; vertical-align: sub;">
-                            Enable Paystack Gateway
-                            <div class="small text-white-50 mt-1" style="font-size: 0.85rem; opacity: 0.7;">
-                                If enabled, users will pay via Paystack pop-up. If disabled, they redirect to the bank transfer page.
-                            </div>
+                    <!-- Updated Professional Paystack Toggle -->
+                    <div class="toggle-card">
+                        <div class="toggle-text">
+                            <h5><i class="fa-regular fa-credit-card"></i> Enable Paystack Gateway</h5>
+                            <p>Enable to accept direct card payments via Paystack. If disabled, users will be directed to the manual bank transfer page.</p>
+                        </div>
+                        <label class="custom-switch">
+                            <input type="checkbox" id="enablePaystack">
+                            <span class="slider"></span>
                         </label>
                     </div>
 
