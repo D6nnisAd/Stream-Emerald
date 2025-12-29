@@ -119,6 +119,7 @@
             max-width: 480px;
             margin: 0 auto;
             cursor: pointer; /* Added cursor pointer */
+            height: 100%;
         }
 
         .package-card:hover {
@@ -126,6 +127,10 @@
             box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0, 242, 255, 0.2);
         }
 
+        .package-card.popular .most-popular-badge {
+            display: block;
+        }
+        
         .most-popular-badge {
             position: absolute;
             top: 20px;
@@ -137,6 +142,7 @@
             font-weight: 700;
             font-size: 0.8rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
         }
 
         .package-name {
@@ -224,6 +230,13 @@
             cursor: pointer;
             text-align: center;
         }
+        
+        .btn-secondary-package {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
         .btn-select-package:hover {
             transform: scale(1.02);
@@ -280,13 +293,14 @@
                 <p class="page-subtitle">Select the membership plan that fits your goals and start earning today.</p>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <!-- Added onclick to the card wrapper -->
-                    <div class="package-card" onclick="selectPackage('Premium Access', '15,000')">
-                        <div class="most-popular-badge">POPULAR</div>
+            <div class="row justify-content-center g-4">
+                
+                <!-- 15k Package (Premium) - Now First -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="package-card popular" onclick="selectPackage('Premium Access', '15,000')" style="transform: scale(1.05); border-color: var(--accent-glow); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);">
+                        <div class="most-popular-badge">RECOMMENDED</div>
                         
-                        <h2 class="package-name">Premium Access</h2>
+                        <h2 class="package-name" style="font-size: 1.8rem;">Premium Access</h2>
                         <div class="package-price">
                             <span class="package-currency">₦</span>15,000
                         </div>
@@ -295,15 +309,14 @@
                         <div class="divider"></div>
 
                         <ul class="benefits-list">
-                            <li><i class="fa-solid fa-check"></i> Unlock Stream Gigs Platform</li>
-                            <li><i class="fa-solid fa-check"></i> Earn from Music & Video Streaming</li>
-                            <li><i class="fa-solid fa-check"></i> Access SkillUp Mentorship</li>
+                            <li><i class="fa-solid fa-check"></i> <b>Full Access</b> to Stream Gigs Platform</li>
+                            <li><i class="fa-solid fa-check"></i> <b>Higher Rewards</b> for Music & Video</li>
                             <li><i class="fa-solid fa-check"></i> Daily Snap & Engage Rewards</li>
+                            <li><i class="fa-solid fa-check"></i> Access SkillUp Mentorship</li>
                             <li><i class="fa-solid fa-check"></i> Social Media Task Earnings</li>
                             <li><i class="fa-solid fa-check"></i> 24/7 Priority Support</li>
                         </ul>
 
-                        <!-- Button remains visual but action is on parent card too -->
                         <a class="btn-select-package">Activate Account</a>
                         
                         <div class="secure-badge">
@@ -311,6 +324,36 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 10k Package (Standard) - Now Second -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="package-card" onclick="selectPackage('Standard Access', '10,000')" style="opacity: 0.85;">
+                        
+                        <h2 class="package-name" style="font-size: 1.4rem;">Standard Access</h2>
+                        <div class="package-price" style="font-size: 2.5rem;">
+                            <span class="package-currency">₦</span>10,000
+                        </div>
+                        <span class="price-subtext">One-time payment • Basic access</span>
+
+                        <div class="divider"></div>
+
+                        <ul class="benefits-list">
+                            <li><i class="fa-solid fa-check"></i> Access to Stream Gigs</li>
+                            <li><i class="fa-solid fa-check"></i> Music & Video Rewards</li>
+                            <li><i class="fa-solid fa-check"></i> Daily Snap Tasks</li>
+                            <li><i class="fa-solid fa-check"></i> Standard Support</li>
+                            <li><i class="fa-solid fa-check"></i> Global Payouts</li>
+                            <li><i class="fa-solid fa-check"></i> Community Access</li>
+                        </ul>
+
+                        <a class="btn-select-package btn-secondary-package">Select Standard</a>
+                        
+                        <div class="secure-badge">
+                            <i class="fa-solid fa-lock"></i> Secure SSL Encrypted Payment
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="row justify-content-center">
@@ -386,6 +429,10 @@
             }
 
             console.log("Processing payment. Paystack enabled:", paystackEnabled);
+            
+            // Parse amount string to number (remove commas)
+            // e.g., "10,000" -> 10000
+            const numericAmount = parseInt(amountStr.replace(/,/g, ''), 10);
 
             if (paystackEnabled) {
                 if (typeof PaystackPop === 'undefined') {
@@ -399,7 +446,7 @@
                 const paymentHandler = PaystackPop.setup({
                     key: 'pk_live_fc1db9ce1d317ab8f1aeca041b68b22c36594bad',
                     email: userEmail,
-                    amount: 15000 * 100, // 15,000 NGN in kobo
+                    amount: numericAmount * 100, // Amount in kobo (dynamic based on selection)
                     currency: "NGN",
                     ref: ''+Math.floor((Math.random() * 1000000000) + 1),
                     metadata: {

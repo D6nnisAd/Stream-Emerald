@@ -567,7 +567,7 @@
         .package-card-link {
             display: block;
             text-decoration: none;
-            max-width: 450px;
+            width: 100%;
             margin: 0 auto;
         }
 
@@ -582,13 +582,14 @@
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s ease;
+            height: 100%; /* Ensure equal height */
         }
         
         .package-card:hover {
             transform: translateY(-5px);
         }
 
-        .package-card::before {
+        .package-card.popular::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -641,6 +642,19 @@
             color: var(--accent-glow);
             margin-right: 15px;
             font-size: 1.1rem;
+        }
+        
+        .most-popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--accent-glow);
+            color: var(--primary-color);
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: 700;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         /*
@@ -1010,31 +1024,57 @@
             <div class="container">
                 <div class="text-center mb-5" data-aos="fade-up">
                     <h2 class="section-title glow-text">Get Started</h2>
-                    <p class="section-subtitle">Unlock full access to the Stream ecosystem with our premium package.</p>
+                    <p class="section-subtitle">Select the membership plan that fits your goals and start earning today.</p>
                 </div>
                 
-                <div class="row justify-content-center">
-                    <div class="col-lg-6" data-aos="zoom-in">
-                        <!-- Clickable Package Card -->
+                <div class="row justify-content-center g-4">
+                    <!-- 15k Package (Premium) - Now First -->
+                    <div class="col-md-6 col-lg-5" data-aos="fade-up">
                         <a href="register.html" class="package-card-link">
-                            <div class="package-card">
+                            <div class="package-card popular" style="transform: scale(1.05); border-color: var(--accent-glow); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);">
+                                <div class="most-popular-badge">RECOMMENDED</div>
                                 <div class="package-content">
-                                    <h3 class="text-uppercase mb-3">Premium Access</h3>
+                                    <h3 class="text-uppercase mb-3" style="color: #fff; font-size: 1.8rem;">Premium Access</h3>
                                     <div class="package-price">
                                         <span class="package-currency">₦</span>15,000
                                     </div>
-                                    <p class="text-white-50">One-time payment for lifetime access</p>
+                                    <p class="text-white-50">One-time payment for lifetime earning</p>
                                     
                                     <ul class="benefits-list">
-                                        <li><i class="fa-solid fa-check-circle"></i> Full access to Stream Gigs Platform</li>
-                                        <li><i class="fa-solid fa-check-circle"></i> Rewards for Streaming Music & Video</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> <b>Full Access</b> to Stream Gigs Platform</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> <b>Higher Rewards</b> for Music & Video</li>
                                         <li><i class="fa-solid fa-check-circle"></i> Daily Snap & Engage Tasks</li>
-                                        <li><i class="fa-solid fa-check-circle"></i> SkillUp Mentorship Program</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> Access SkillUp Mentorship</li>
                                         <li><i class="fa-solid fa-check-circle"></i> Stream Yaps Social Rewards</li>
-                                        <li><i class="fa-solid fa-check-circle"></i> Global Payouts & Support</li>
+                                        <li><i class="fa-solid fa-check-circle"></i> 24/7 Priority Support</li>
                                     </ul>
                                     
-                                    <span class="btn-custom btn-primary-custom w-100">Choose Package</span>
+                                    <span class="btn-custom btn-primary-custom w-100" style="padding: 18px; font-size: 1.1rem;">Get Premium Access</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 10k Package (Standard) - Now Second -->
+                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="100">
+                        <a href="register.html" class="package-card-link">
+                            <div class="package-card" style="opacity: 0.85;">
+                                <div class="package-content">
+                                    <h3 class="text-uppercase mb-3" style="font-size: 1.4rem;">Standard Access</h3>
+                                    <div class="package-price" style="font-size: 2.5rem; color: #fff;">
+                                        <span class="package-currency">₦</span>10,000
+                                    </div>
+                                    <p class="text-white-50">Basic entry level access</p>
+                                    
+                                    <ul class="benefits-list">
+                                        <li><i class="fa-solid fa-check-circle" style="color: #888;"></i> Access to Stream Gigs</li>
+                                        <li><i class="fa-solid fa-check-circle" style="color: #888;"></i> Music & Video Rewards</li>
+                                        <li><i class="fa-solid fa-check-circle" style="color: #888;"></i> Daily Snap Tasks</li>
+                                        <li><i class="fa-solid fa-check-circle" style="color: #888;"></i> Standard Support</li>
+                                        <li><i class="fa-solid fa-check-circle" style="color: #888;"></i> Global Payouts</li>
+                                    </ul>
+                                    
+                                    <span class="btn-custom btn-secondary-custom w-100">Choose Standard</span>
                                 </div>
                             </div>
                         </a>
@@ -1090,17 +1130,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Removed Item 4 (Referral) -->
                                 <!-- New Item 5 -->
                                  <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                                             What does the package cost?
+                                             What do the packages cost?
                                         </button>
                                     </h2>
                                     <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                         <div class="accordion-body">
-                                            The premium access package is a one-time payment of ₦15,000, which grants you lifetime access to all features and opportunities.
+                                            We offer two packages: Standard Access for ₦10,000 and Premium Access for ₦15,000. Both are one-time payments.
                                         </div>
                                     </div>
                                 </div>
@@ -1113,7 +1152,7 @@
                                     </h2>
                                     <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                         <div class="accordion-body">
-                                            Yes, once you register and activate your package, you get immediate access to the SkillUp mentorship, courses, and training materials.
+                                            Yes, once you register and activate the Premium package, you get immediate access to the SkillUp mentorship, courses, and training materials.
                                         </div>
                                     </div>
                                 </div>
