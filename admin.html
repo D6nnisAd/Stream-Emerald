@@ -196,13 +196,23 @@
         }
 
         /* Settings Card */
-        .settings-card {
+        .settings-card, .analytics-card-container {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 2.5rem;
             backdrop-filter: blur(10px);
             max-width: 800px;
+        }
+        
+        /* Analytics Table Container needs different width */
+        .analytics-table-container {
+             background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            max-width: 100%;
         }
 
         .card-header {
@@ -390,6 +400,67 @@
             opacity: 1;
         }
 
+        /* Analytics Stats Cards */
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .stat-card h6 {
+            color: #b0d0d3;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0.5rem 0;
+        }
+        
+        .stat-card .stat-value.highlight {
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        /* Analytics Table */
+        .table-custom {
+            color: #fff;
+            width: 100%;
+        }
+        
+        .table-custom thead th {
+            border-bottom: 1px solid var(--border);
+            color: var(--accent);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .table-custom tbody td {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .badge-visitor {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .badge-returning {
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--accent);
+        }
+
         @media(max-width: 768px) {
             .sidebar { display: none; }
             .main-content { margin-left: 0; padding: 1.5rem; width: 100%; }
@@ -425,8 +496,11 @@
         <aside class="sidebar">
             <img src="assets/logo.svg" alt="Stream" class="brand-logo">
             <nav>
-                <a href="#" class="nav-item active">
+                <a href="#" id="nav-settings" class="nav-item active">
                     <i class="fa-solid fa-gear"></i> Global Settings
+                </a>
+                <a href="#" id="nav-analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i> Analytics
                 </a>
                 <a href="#" id="logoutBtn" class="nav-item mt-auto">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
@@ -436,59 +510,122 @@
 
         <main class="main-content">
             <div class="header">
-                <h1 class="page-title">Configuration</h1>
+                <h1 class="page-title" id="page-title-text">Configuration</h1>
                 <div class="admin-profile">
                     <span>Admin</span>
                     <div class="admin-avatar">A</div>
                 </div>
             </div>
 
-            <div class="settings-card">
-                <div class="card-header">
-                    <h2 class="card-title">Payment & Support Details</h2>
-                    <p class="text-white-50 m-0 small">Update the global bank details, support link, and payment method.</p>
+            <!-- SETTINGS VIEW -->
+            <div id="settings-view">
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Payment & Support Details</h2>
+                        <p class="text-white-50 m-0 small">Update the global bank details, support link, and payment method.</p>
+                    </div>
+
+                    <form id="adminSettingsForm">
+                        
+                        <!-- Updated Professional Paystack Toggle -->
+                        <div class="toggle-card">
+                            <div class="toggle-text">
+                                <h5><i class="fa-regular fa-credit-card"></i> Enable Paystack Gateway</h5>
+                                <p>Enable to accept direct card payments via Paystack. If disabled, users will be directed to the manual bank transfer page.</p>
+                            </div>
+                            <label class="custom-switch">
+                                <input type="checkbox" id="enablePaystack">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Global Support Link</label>
+                            <input type="url" class="form-control" id="supportLink" placeholder="https://wa.me/..." required>
+                            <div class="form-text text-white-50">Used for support buttons AND redirect after successful Paystack payment.</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Bank Name</label>
+                                <input type="text" class="form-control" id="bankName" placeholder="e.g. Moniepoint" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" class="form-control" id="accountNumber" placeholder="e.g. 4002125940" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Account Name</label>
+                            <input type="text" class="form-control" id="accountName" placeholder="e.g. BERNARD'S DIGITAL HUB" required>
+                        </div>
+
+                        <button type="submit" class="btn-save" id="saveBtn">Save Changes</button>
+                        <div style="clear: both;"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ANALYTICS VIEW (New) -->
+            <div id="analytics-view" class="d-none-custom">
+                <!-- Stats Row -->
+                <div class="row">
+                    <!-- New Card: All Time -->
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <h6>Total Hits (All Time)</h6>
+                            <div class="stat-value highlight" id="stat-hits-all">0</div>
+                        </div>
+                    </div>
+                    <!-- Existing Cards updated to col-md-3 -->
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <h6>Hits (Today)</h6>
+                            <div class="stat-value" id="stat-hits-today">0</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <h6>Regs (Last 50)</h6>
+                            <div class="stat-value" id="stat-regs">0</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <h6>Checkout (Last 50)</h6>
+                            <div class="stat-value" id="stat-checkout">0</div>
+                        </div>
+                    </div>
                 </div>
 
-                <form id="adminSettingsForm">
-                    
-                    <!-- Updated Professional Paystack Toggle -->
-                    <div class="toggle-card">
-                        <div class="toggle-text">
-                            <h5><i class="fa-regular fa-credit-card"></i> Enable Paystack Gateway</h5>
-                            <p>Enable to accept direct card payments via Paystack. If disabled, users will be directed to the manual bank transfer page.</p>
+                <!-- Live Table -->
+                <div class="analytics-table-container">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="card-title">Live Traffic Feed</h2>
+                            <p class="text-white-50 m-0 small">Real-time visitor logs for tracking ad performance.</p>
                         </div>
-                        <label class="custom-switch">
-                            <input type="checkbox" id="enablePaystack">
-                            <span class="slider"></span>
-                        </label>
+                        <button class="btn btn-sm btn-outline-light" id="refresh-analytics"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
                     </div>
-
-                    <div class="mb-4">
-                        <label class="form-label">Global Support Link</label>
-                        <input type="url" class="form-control" id="supportLink" placeholder="https://wa.me/..." required>
-                        <div class="form-text text-white-50">Used for support buttons AND redirect after successful Paystack payment.</div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Page</th>
+                                    <th>Source (Referrer)</th>
+                                    <th>Visitor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analytics-table-body">
+                                <tr><td colspan="4" class="text-center text-muted">Loading data...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label">Bank Name</label>
-                            <input type="text" class="form-control" id="bankName" placeholder="e.g. Moniepoint" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Account Number</label>
-                            <input type="text" class="form-control" id="accountNumber" placeholder="e.g. 4002125940" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label">Account Name</label>
-                        <input type="text" class="form-control" id="accountName" placeholder="e.g. BERNARD'S DIGITAL HUB" required>
-                    </div>
-
-                    <button type="submit" class="btn-save" id="saveBtn">Save Changes</button>
-                    <div style="clear: both;"></div>
-                </form>
+                </div>
             </div>
+
         </main>
     </div>
 
