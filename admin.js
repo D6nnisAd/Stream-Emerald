@@ -88,6 +88,7 @@ if(refreshAnalyticsBtn) refreshAnalyticsBtn.addEventListener('click', loadAnalyt
 async function loadAnalytics() {
     const tableBody = document.getElementById('analytics-table-body');
     const statHitsAll = document.getElementById('stat-hits-all');
+    const statUnique = document.getElementById('stat-unique');
     const statHitsToday = document.getElementById('stat-hits-today');
     const statRegs = document.getElementById('stat-regs');
     const statCheckout = document.getElementById('stat-checkout');
@@ -98,11 +99,17 @@ async function loadAnalytics() {
     try {
         const logsRef = collection(db, "analytics_logs");
         
-        // 1. Get ALL TIME Count (Server Side Count - Cheap Read)
+        // 1. Get ALL TIME Count
         const allTimeSnapshot = await getCountFromServer(logsRef);
         const allTimeCount = allTimeSnapshot.data().count;
 
-        // 2. Get TODAY'S Count
+        // 2. Get UNIQUE VISITORS Count (New Users)
+        // Tracks logs where 'is_returning' is false
+        const uniqueQuery = query(logsRef, where("is_returning", "==", false));
+        const uniqueSnapshot = await getCountFromServer(uniqueQuery);
+        const uniqueCount = uniqueSnapshot.data().count;
+
+        // 3. Get TODAY'S Count
         const startOfDay = new Date();
         startOfDay.setHours(0,0,0,0);
         
@@ -110,7 +117,7 @@ async function loadAnalytics() {
         const todaySnapshot = await getCountFromServer(todayQuery);
         const todayCount = todaySnapshot.data().count;
 
-        // 3. Get Recent Logs for Table (Limit 50)
+        // 4. Get Recent Logs for Table (Limit 50)
         const listQuery = query(logsRef, orderBy("timestamp", "desc"), limit(50));
         const querySnapshot = await getDocs(listQuery);
         
@@ -145,10 +152,13 @@ async function loadAnalytics() {
             `;
         });
 
-        // Update Stats
-        statHitsAll.innerText = allTimeCount;
-        statHitsToday.innerText = todayCount;
-        statRegs.innerText = regStarts;
+        // Update Stats with Number Formatting
+        statHitsAll.innerText = allTimeCount.toLocaleString();
+        statUnique.innerText = uniqueCount.toLocaleString();
+        statHitsToday.innerText = todayCount.toLocaleString();
+        
+        // These are just trending stats from the last 50, so we just show the count
+        statRegs.innerText = regStarts; 
         statCheckout.innerText = checkoutStarts;
 
         // Update Table

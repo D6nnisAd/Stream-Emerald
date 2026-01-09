@@ -569,31 +569,40 @@
 
             <!-- ANALYTICS VIEW (New) -->
             <div id="analytics-view" class="d-none-custom">
-                <!-- Stats Row -->
+                
+                <!-- Row 1: High Level Stats (3 Columns) -->
                 <div class="row">
-                    <!-- New Card: All Time -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="stat-card">
                             <h6>Total Hits (All Time)</h6>
                             <div class="stat-value highlight" id="stat-hits-all">0</div>
                         </div>
                     </div>
-                    <!-- Existing Cards updated to col-md-3 -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h6>Unique Visitors (New Users)</h6>
+                            <div class="stat-value" id="stat-unique">0</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="stat-card">
                             <h6>Hits (Today)</h6>
                             <div class="stat-value" id="stat-hits-today">0</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                </div>
+
+                <!-- Row 2: Funnel Stats (2 Columns) -->
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="stat-card">
-                            <h6>Regs (Last 50)</h6>
+                            <h6>Regs (Last 50 Hits)</h6>
                             <div class="stat-value" id="stat-regs">0</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="stat-card">
-                            <h6>Checkout (Last 50)</h6>
+                            <h6>Checkout (Last 50 Hits)</h6>
                             <div class="stat-value" id="stat-checkout">0</div>
                         </div>
                     </div>

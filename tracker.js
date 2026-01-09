@@ -14,9 +14,25 @@ async function logVisit() {
         isReturning = false;
     }
 
-    // 2. Capture Data
+    // 2. Check for Duplicate Visit (Unique Page View Logic)
+    // We store a list of pages this user has already visited in localStorage.
+    const currentPath = window.location.pathname || '/'; // Handle root as /
+    const visitedHistoryKey = 'stream_page_history';
+    let visitedPages = JSON.parse(localStorage.getItem(visitedHistoryKey) || '[]');
+
+    if (visitedPages.includes(currentPath)) {
+        // User has seen this specific page before. Do NOT count it.
+        console.log("Stream Tracker: Recurring visit to " + currentPath + " ignored.");
+        return;
+    }
+
+    // Add this page to their history so we don't count it again
+    visitedPages.push(currentPath);
+    localStorage.setItem(visitedHistoryKey, JSON.stringify(visitedPages));
+
+    // 3. Capture Data (Only if unique)
     const visitData = {
-        page_path: window.location.pathname,
+        page_path: currentPath,
         page_title: document.title,
         referrer: document.referrer || 'Direct', // Crucial for spotting Google Ads vs Direct
         user_agent: navigator.userAgent,
@@ -26,10 +42,10 @@ async function logVisit() {
         local_time: new Date().toISOString() // Fallback for sorting if serverTimestamp lags in UI
     };
 
-    // 3. Send to Firestore
+    // 4. Send to Firestore
     try {
         const docRef = await addDoc(collection(db, "analytics_logs"), visitData);
-        console.log("Stream Tracker: Visit logged", docRef.id);
+        console.log("Stream Tracker: Unique visit logged", docRef.id);
     } catch (e) {
         console.error("Stream Tracker Error:", e);
     }
