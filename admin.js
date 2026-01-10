@@ -11,10 +11,13 @@ const dashboardView = document.getElementById('dashboard-view');
 const settingsView = document.getElementById('settings-view');
 const analyticsView = document.getElementById('analytics-view');
 
-// Navigation
+// Navigation & Sidebar
 const navSettings = document.getElementById('nav-settings');
 const navAnalytics = document.getElementById('nav-analytics');
 const pageTitle = document.getElementById('page-title-text');
+const sidebar = document.getElementById('sidebar');
+const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+const mobileOverlay = document.getElementById('mobile-overlay');
 
 // UI Elements - Forms
 const loginForm = document.getElementById('loginForm');
@@ -58,6 +61,21 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
+// --- MOBILE MENU LOGIC ---
+function toggleMobileMenu() {
+    sidebar.classList.toggle('show');
+    mobileOverlay.classList.toggle('show');
+}
+
+function closeMobileMenu() {
+    sidebar.classList.remove('show');
+    mobileOverlay.classList.remove('show');
+}
+
+if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+if(mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+
+
 // --- NAVIGATION LOGIC ---
 function showSettingsView() {
     settingsView.classList.remove('d-none-custom');
@@ -66,6 +84,7 @@ function showSettingsView() {
     navAnalytics.classList.remove('active');
     pageTitle.innerText = "Configuration";
     if (analyticsInterval) clearInterval(analyticsInterval);
+    closeMobileMenu(); // Auto close on mobile
 }
 
 function showAnalyticsView() {
@@ -77,6 +96,7 @@ function showAnalyticsView() {
     loadAnalytics();
     // Auto-refresh every 30s
     analyticsInterval = setInterval(loadAnalytics, 30000); 
+    closeMobileMenu(); // Auto close on mobile
 }
 
 if(navSettings) navSettings.addEventListener('click', showSettingsView);
