@@ -63,6 +63,7 @@ onAuthStateChanged(auth, (user) => {
 
 // --- MOBILE MENU LOGIC ---
 function toggleMobileMenu() {
+    console.log("Toggling Mobile Menu");
     sidebar.classList.toggle('show');
     mobileOverlay.classList.toggle('show');
 }
@@ -72,7 +73,13 @@ function closeMobileMenu() {
     mobileOverlay.classList.remove('show');
 }
 
-if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+// Add event listener immediately
+if(mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+} else {
+    console.error("Mobile Menu Button not found!");
+}
+
 if(mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
 
 
